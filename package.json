@@ -1,8 +1,9 @@
 {
+  "name": "@tulski/bot-detection",
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "start:server": "npm run start -w @tulski/bot-detection-server",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -12,7 +13,6 @@
     "tsconfig": "*",
     "turbo": "latest"
   },
-  "name": "botd",
   "packageManager": "npm@9.8.1",
   "workspaces": [
     "apps/*",
