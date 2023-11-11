@@ -3,12 +3,12 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "start:server": "npm run start -w @tulski/bot-detection-server",
-    "lint": "turbo run lint",
+    "dev:demo": "npm run dev -w @tulski/bot-demo",
+    "dev:server": "npm run dev -w @tulski/bot-server",
+    "start:server": "npm run start -w @tulski/bot-server",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint": "^8.48.0",
     "prettier": "^3.0.3",
     "tsconfig": "*",
     "turbo": "latest"
