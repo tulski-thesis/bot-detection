@@ -8,7 +8,7 @@ export class BotClient {
 
   constructor(private readonly baseUrl: string) {}
 
-  public async analyze(): Promise<AnalysisResult> {
+  public async analyze(): Promise<BotAnalysisResult> {
     const fingerprint = await this.collectFingerprint();
     return this.analyseFingerprint(fingerprint);
   }
@@ -19,7 +19,7 @@ export class BotClient {
 
   private async analyseFingerprint(
     fingerprint: FingerPrint,
-  ): Promise<AnalysisResult> {
+  ): Promise<BotAnalysisResult> {
     const url = new URL("/analyze", this.baseUrl).href;
     const response = await fetch(url, {
       method: "POST",
@@ -34,9 +34,12 @@ export class BotClient {
 
 export type FingerPrint = Record<string, any>;
 
-export interface AnalysisResult {
+export interface BotAnalysisResult {
   id: string;
   created_at: Date;
-  result: "human" | "bad_bot" | "good_bot";
-  debug?: Record<string, any>;
+  bot: BotDetectionResult;
+}
+
+export interface BotDetectionResult {
+  result: "not_detected" | "bad_bot" | "good_bot";
 }
