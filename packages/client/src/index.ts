@@ -20,7 +20,7 @@ export class BotClient {
   private async analyseFingerprint(
     fingerprint: FingerPrint,
   ): Promise<BotAnalysisResult> {
-    const url = new URL("/analyze", this.baseUrl).href;
+    const url = new URL("/api/v1/analyze", this.baseUrl).href;
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify(fingerprint),
