@@ -15,10 +15,10 @@ app.use(
   }),
 );
 
-app.get("/health", (req, res) => {
+app.get("/api/v1/health", (req, res) => {
   res.status(200).send("ok");
 });
-app.post("/analyze", async (req, res): Promise<void> => {
+app.post("/api/v1/analyze", async (req, res): Promise<void> => {
   const body: FingerPrint = req.body;
   if (
     typeof body !== "object" ||
@@ -33,7 +33,7 @@ app.post("/analyze", async (req, res): Promise<void> => {
   res.send(response);
 });
 
-app.get("/verify/:id", async (req, res): Promise<void> => {
+app.get("/api/v1/verify/:id", async (req, res): Promise<void> => {
   const id = req.params.id;
   if (!id) {
     res.status(400).send({ error: "Bad request" });

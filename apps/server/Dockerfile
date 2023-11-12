@@ -40,5 +40,5 @@ USER webapp
 
 COPY --from=installer --chown=webapp:nodejs /app .
 
-ENTRYPOINT exec npm run start -w @tulski/bot-detection-server
+ENTRYPOINT exec npm run start -w @tulski/bot-server
 
