@@ -43,6 +43,10 @@ app.get("/api/v1/verify/:id", async (req, res): Promise<void> => {
   }
   console.log("Verifying request ID: ", id);
   const result = await getResult(id);
+  if (!result) {
+    res.status(404).send({ error: "Not found" });
+    return;
+  }
   res.send(result);
 });
 
