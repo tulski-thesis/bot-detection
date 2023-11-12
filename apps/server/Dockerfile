@@ -10,7 +10,7 @@ RUN apk update
 WORKDIR /app
 RUN npm i -g turbo
 COPY . .
-RUN turbo prune @tulski/bot-detection-server --docker
+RUN turbo prune @tulski/bot-server --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
