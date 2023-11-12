@@ -1,6 +1,6 @@
 import {
   analyseFingerprint,
-  CONSISTENT,
+  AnalysisResult,
   DetectionTest,
   FingerPrint,
   INCONSISTENT,
@@ -8,30 +8,34 @@ import {
 } from "fpscanner";
 import * as nanoid from "nanoid";
 import { IS_DEBUG } from "./config";
+import { saveResult } from "./results-local-storage";
 
-export const analyze = (fingerprint: FingerPrint) => {
+export const analyze = async (fingerprint: FingerPrint): Promise<Result> => {
   const analysis = analyseFingerprint(fingerprint);
-  const tests = Object.values(analysis);
 
-  const resultDraft = {
+  const result = {
     id: nanoid.nanoid(),
     created_at: new Date(),
-    ...(IS_DEBUG && { debug: analysis }),
+    bot: checkBot(analysis),
+    ...(IS_DEBUG && { analysis_details: analysis }),
   };
+  await saveResult(result);
 
+  return result;
+};
+
+const checkBot = (analysis: AnalysisResult): BotDetectionResult => {
+  const tests = Object.values(analysis);
   const inconsistent = countInconsistencies(tests);
   const unsure = countUnsure(tests);
-
   if (inconsistent > 1 || (inconsistent >= 1 && unsure >= 1)) {
     return {
-      ...resultDraft,
       result: "bad_bot",
     };
   }
 
   return {
-    ...resultDraft,
-    result: "human",
+    result: "not_detected",
   };
 };
 
@@ -40,3 +44,14 @@ export const countInconsistencies = (tests: DetectionTest[]) =>
 
 export const countUnsure = (tests: DetectionTest[]) =>
   tests.filter((test) => test.consistent === UNSURE).length;
+
+export interface Result {
+  id: string;
+  created_at: Date;
+  bot: BotDetectionResult;
+  analysis_details?: AnalysisResult;
+}
+
+export interface BotDetectionResult {
+  result: "not_detected" | "bad_bot" | "good_bot";
+}
