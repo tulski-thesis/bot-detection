@@ -1,13 +1,15 @@
-import cors from "cors";
 import "dotenv/config";
+import cors from "cors";
 import express from "express";
 import { FingerPrint } from "fpscanner";
 import { analyze } from "./analyze";
 import { CORS_ORIGIN, PORT } from "./config";
 import { getResult } from "./results-local-storage";
+import morgan from "morgan";
 
 const app = express();
 app.use(express.json());
+app.use(morgan("tiny"));
 app.use(
   cors({
     origin: CORS_ORIGIN,
@@ -15,7 +17,7 @@ app.use(
   }),
 );
 
-app.get("/api/v1/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.status(200).send("ok");
 });
 app.post("/api/v1/analyze", async (req, res): Promise<void> => {
