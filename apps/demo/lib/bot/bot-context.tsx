@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 
 export function botClient(opts?: any): Promise<BotClient> {
-  return BotClient.load("http://localhost:3030");
+  return BotClient.load("http://localhost:6000");
 }
 
 export async function botDetect() {
@@ -20,7 +20,7 @@ const BotProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     botDetect().then((result) => {
-      const resultBot = result.result === "bad_bot";
+      const resultBot = result.bot.result !== "not_detected";
       setIsBot(resultBot);
       if (isBot) {
         router.replace("/blocked");
