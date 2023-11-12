@@ -1,10 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
 import { BotClient } from "@tulski/bot-client";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 
+const BOT_API_URL =
+  process.env.NEXT_PUBLIC_BOT_API_URL || "http://bot.tulski.com";
+
 export function botClient(opts?: any): Promise<BotClient> {
-  return BotClient.load("http://localhost:6000");
+  return BotClient.load(BOT_API_URL);
 }
 
 export async function botDetect() {

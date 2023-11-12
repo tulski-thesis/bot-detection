@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { botDetect } from "@lib/bot/script";
+import { botDetect } from "@lib/bot/bot-context";
 
 export default function BotResult() {
   const [state, setState] = useState("");
